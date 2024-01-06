@@ -20,7 +20,7 @@
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
   const provider = new GoogleAuthProvider();
-function login() {
+export function login() {
   signInWithPopup(auth,provider)
   .then((result) => {
     const credential = GoogleAuthProvider.credentialFromResult(result);
