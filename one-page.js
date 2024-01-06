@@ -1,6 +1,11 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-app.js";
 import { getAuth, GoogleAuthProvider, onAuthStateChanged, signInWithPopup} from "https://www.gstatic.com/firebasejs/10.5.2/firebase-auth.js";
 import {login} from "./login.js";
+import {logout, submit, join, cancel, create_an_arc} from "./dashboard.js";
+import { getDatabase, set, ref, onValue, get, child } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-database.js";
+
+var uid;
+var user_email;
 
 
 var stylesheet = document.createElement("link");
@@ -23,19 +28,109 @@ var div = document.getElementById("serve");
   const auth = getAuth(app);
   const provider = new GoogleAuthProvider();
 
+
+function activate_arc_reference() {
+  var arcs_ref = ref(database, "users/" + uid + "/channels/");
+    onValue(arcs_ref, (snapshot) => {
+     let data = snapshot.val();
+     console.log(data);
+     let arc_table = document.getElementById("channels-table");
+     arc_table.innerHTML = "";
+     for(let n = 0; n < Object.keys(data).length; n++) {
+      let arc_number = Object.keys(data)[n];
+      get(child(dbRef, '/channel/' + arc_number + "/basic_data")).then((snapshot) => {
+       let arc_data = snapshot.val()
+       let arc = document.createElement("div"); // add to arc_table
+       
+       arc.style.padding = "7px";
+       arc.style.background = "black";
+       
+       let arc_container = document.createElement("div"); // add to arc
+       let arc_name = document.createElement("h3"); // add to arc container
+       let arc_name_node = document.createTextNode(arc_data.name); // add to arc_name
+       
+       arc_name.style.color = "white";
+       let join_arc = document.createElement("button"); // add to arc container
+       join_arc.innerHTML = "Go to arc";
+       join_arc.setAttribute("onclick","join(" + arc_number + ")");
+
+       arc_name.appendChild(arc_name_node);
+       arc_container.appendChild(arc_name);
+       arc_container.appendChild(join_arc);
+       arc.appendChild(arc_container);
+       arc_table.appendChild(arc);
+      });
+     }
+    });
+}
 onAuthStateChanged(auth, (user) => {
   if (user) {
     // User is signed in, see docs for a list of available properties
     // https://firebase.google.com/docs/reference/js/auth.user
     console.log(user);
-    const uid = user.uid;
-    window.location.href = "dashboard.html";
+    uid = user.uid;
+    user_email = user.email;
+    document.getElementById("username").innerHTML = user.displayName;
+    document.getElementById("user-greeting").innerHTML = "Hi, " + user.displayName + "!";
+    stylesheet.setAttribute("href","dashboard.css");
+    var header = document.getElementById("header");
+    var header_fields = '' + 
+'<table>' + 
+'            <tbody>' + 
+'                <tr>' + 
+'                <td width="88.25%">' + 
+'                    <h2>Arc</h2>' + 
+'                </td>' + 
+'                <td>' + 
+'                    <p id="username"></p>' + 
+'                </td>' + 
+'                <td>' + 
+'                    <a href="dashboard">Dashboard</a>' + 
+'                </td>' + 
+'                <td><a href="javascript:logout()">Sign out</a></td>' + 
+'</tr>' + 
+'            </tbody>' + 
+'        </table>' + 
+'';
+    header.innerHTML = header_fields;
+  var dashboard_fields = '' + 
+'<div id="container" class="container">' + 
+'<div id="main" class="box">' + 
+'<section id="open-section">' + 
+'        <h1 id="user-greeting">Hi, user</h1>' + 
+'        <h4>See your Arcs</h4>' + 
+'    <button onclick="create_an_arc()">Create an Arc</button>' + 
+'    </section>' + 
+'    ' + 
+'<section id="channels-section">' + 
+'    <div id="channels-table">' + 
+'        ' + 
+'    </div>' + 
+'</section>' + 
+'</div> <!-- end box -->' + 
+'<div id="add-arcs" class="box overlay" style="color: white;background-color: black;visibility: hidden;"></div> <!-- end overlay -->' + 
+'</div> <!-- end container -->' + 
+'' + 
+'';
+    div.innerHTML = dashboard_fields;
+    activate_arc_reference();
+    let basic_info = {
+     displayName: user.displayName,
+     email: user.email,
+    };
+    set(ref(database, "users/" + uid + "/basic_info"), basic_info);
+    window.logout = logout;
+    window.submit = submit;
+    window.cancel = cancel;
+    window.join = join;
+    window.create_an_arc = create_an_arc;
+    
     // ...
   } else {
     
     window.login = login;
     stylesheet.setAttribute("href","login.css");
-  var fields = '' + 
+  var login_fields = '' + 
 '<table id="center">' + 
 '        <tbody>' + 
 '            <tr>' + 
@@ -71,7 +166,7 @@ onAuthStateChanged(auth, (user) => {
 '        </tbody>' + 
 '    </table>' + 
 '';
-    div.innerHTML = fields;
+    div.innerHTML = login_fields;
     div.setAttribute("class","wrapper");
     
   document.getElementById("sign-in-button").setAttribute("onclick","login()");
