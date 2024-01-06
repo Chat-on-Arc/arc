@@ -1,7 +1,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-app.js";
 import { getAuth, GoogleAuthProvider, onAuthStateChanged, signInWithPopup} from "https://www.gstatic.com/firebasejs/10.5.2/firebase-auth.js";
 import {login} from "./login.js";
-import {logout, submit, join, cancel, create_an_arc} from "./dashboard.js";
+// import {logout, submit, join, cancel, create_an_arc} from "./dashboard.js";
 import { getDatabase, set, ref, onValue, get, child } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-database.js";
 
 var uid;
