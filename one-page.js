@@ -140,12 +140,6 @@ onAuthStateChanged(auth, (user) => {
   if (user) {
     // User is signed in, see docs for a list of available properties
     // https://firebase.google.com/docs/reference/js/auth.user
-    console.log(user);
-    uid = user.uid;
-    user_email = user.email;
-    document.getElementById("username").innerHTML = user.displayName;
-    document.getElementById("user-greeting").innerHTML = "Hi, " + user.displayName + "!";
-    stylesheet.setAttribute("href","dashboard.css");
     var header = document.getElementById("header");
     var header_fields = '' + 
 '<table>' + 
@@ -186,6 +180,12 @@ onAuthStateChanged(auth, (user) => {
 '' + 
 '';
     div.innerHTML = dashboard_fields;
+    console.log(user);
+    uid = user.uid;
+    user_email = user.email;
+    document.getElementById("username").innerHTML = user.displayName;
+    document.getElementById("user-greeting").innerHTML = "Hi, " + user.displayName + "!";
+    stylesheet.setAttribute("href","dashboard.css");
     activate_arc_reference();
     let basic_info = {
      displayName: user.displayName,
