@@ -119,11 +119,11 @@ onAuthStateChanged(auth, (user) => {
      email: user.email,
     };
     set(ref(database, "users/" + uid + "/basic_info"), basic_info);
-    window.logout = logout;
+   /* window.logout = logout;
     window.submit = submit;
     window.cancel = cancel;
     window.join = join;
-    window.create_an_arc = create_an_arc;
+    window.create_an_arc = create_an_arc; */
     
     // ...
   } else {
