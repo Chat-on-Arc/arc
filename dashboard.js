@@ -21,7 +21,7 @@ var user_email;
   const auth = getAuth(app);
   const dbRef = ref(getDatabase());
 
-function logout() {
+export function logout() {
   signOut(auth).then(() => {
   console.log("User is signed out.");
   window.location.href = "login.html";
@@ -30,7 +30,7 @@ function logout() {
   });
 }
 window.logout = logout;
-function submit() {
+export function submit() {
  var channel_id = Math.floor(Math.random()*99999);
  let admin = [user_email];   
  let name = document.getElementById("name").value;
@@ -44,7 +44,7 @@ function submit() {
 }
 window.submit = submit;
 
-function join(e) {
+export function join(e) {
  var url = new URL("https://jcamille2023.github.io/arc/channel");
  url.searchParams.append('channel_id', e);
  console.log(url);
@@ -52,14 +52,14 @@ function join(e) {
 }
 window.join = join;
 
-function cancel() {
+export function cancel() {
  var div = document.getElementById("add-arcs");
  div.style.visibility = "hidden";
  div.innerHTML = "";
 }
 window.cancel = cancel;
 
-function create_an_arc() {
+export function create_an_arc() {
  var div = document.getElementById("add-arcs");
   div.style.visibility = "visible";
   div.innerHTML = "<div style='padding: 10px;'>" + 
