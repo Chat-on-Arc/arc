@@ -6,9 +6,12 @@ var uid;
 var user_email;
 
 
+
+
 var stylesheet = document.createElement("link");
 stylesheet.setAttribute("rel","stylesheet");
 var div = document.getElementById("serve");
+var header = document.getElementById("header");
   let head = document.getElementsByTagName("head");
   head = head[0];
   head.appendChild(stylesheet);
@@ -25,6 +28,8 @@ var div = document.getElementById("serve");
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
   const provider = new GoogleAuthProvider();
+  const dbRef = ref(getDatabase());
+  const database = getDatabase();
 
 export function login() {
   signInWithPopup(auth,provider)
@@ -53,7 +58,6 @@ window.login = login;
 export function logout() {
   signOut(auth).then(() => {
   console.log("User is signed out.");
-  window.location.href = "login.html";
   }).catch((error) => {
   // An error happened.
   });
@@ -136,12 +140,9 @@ function activate_arc_reference() {
      }
     });
 }
-onAuthStateChanged(auth, (user) => {
-  if (user) {
-    // User is signed in, see docs for a list of available properties
-    // https://firebase.google.com/docs/reference/js/auth.user
-    var header = document.getElementById("header");
-    var header_fields = '' + 
+
+function show_header() {
+  var header_fields = '' + 
 '<table>' + 
 '            <tbody>' + 
 '                <tr>' + 
@@ -152,7 +153,7 @@ onAuthStateChanged(auth, (user) => {
 '                    <p id="username"></p>' + 
 '                </td>' + 
 '                <td>' + 
-'                    <a href="dashboard">Dashboard</a>' + 
+'                    <a href="javascript:show_dashboard()">Dashboard</a>' + 
 '                </td>' + 
 '                <td><a href="javascript:logout()">Sign out</a></td>' + 
 '</tr>' + 
@@ -160,6 +161,9 @@ onAuthStateChanged(auth, (user) => {
 '        </table>' + 
 '';
     header.innerHTML = header_fields;
+}
+
+function show_dashboard() {
   var dashboard_fields = '' + 
 '<div id="container" class="container">' + 
 '<div id="main" class="box">' + 
@@ -186,18 +190,20 @@ onAuthStateChanged(auth, (user) => {
     document.getElementById("username").innerHTML = user.displayName;
     document.getElementById("user-greeting").innerHTML = "Hi, " + user.displayName + "!";
     stylesheet.setAttribute("href","dashboard.css");
+}
+window.show_dashboard = show_dashboard;
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    // User is signed in, see docs for a list of available properties
+    // https://firebase.google.com/docs/reference/js/auth.user
+    show_header();
+    show_dashboard();
     activate_arc_reference();
     let basic_info = {
      displayName: user.displayName,
      email: user.email,
     };
     set(ref(database, "users/" + uid + "/basic_info"), basic_info);
-   /* window.logout = logout;
-    window.submit = submit;
-    window.cancel = cancel;
-    window.join = join;
-    window.create_an_arc = create_an_arc; */
-    
     // ...
   } else {
     
@@ -241,7 +247,7 @@ onAuthStateChanged(auth, (user) => {
 '';
     div.innerHTML = login_fields;
     div.setAttribute("class","wrapper");
-    
+    header.innerHTML = "";
   document.getElementById("sign-in-button").setAttribute("onclick","login()");
     // ...
   }
