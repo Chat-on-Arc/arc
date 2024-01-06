@@ -1,6 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-app.js";
 import { getAuth, GoogleAuthProvider, onAuthStateChanged, signInWithPopup} from "https://www.gstatic.com/firebasejs/10.5.2/firebase-auth.js";
-import {login} from "login.js";
+import {login} from "/login.js";
 
 
 var stylesheet = document.createElement("link");
