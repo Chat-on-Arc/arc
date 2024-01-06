@@ -1,5 +1,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-app.js";
 import { getAuth, GoogleAuthProvider, onAuthStateChanged, signInWithPopup} from "https://www.gstatic.com/firebasejs/10.5.2/firebase-auth.js";
+import {login} from "login.js";
+
 
 var stylesheet = document.createElement("link");
 stylesheet.setAttribute("rel","stylesheet");
@@ -30,7 +32,7 @@ onAuthStateChanged(auth, (user) => {
     window.location.href = "dashboard.html";
     // ...
   } else {
-    import {login} from "login.js";
+    
     window.login = login;
     stylesheet.setAttribute("href","login.css");
   var fields = '' + 
