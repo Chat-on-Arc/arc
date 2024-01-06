@@ -10,7 +10,7 @@ var msg_date;
 var new_user_uid;
 var display_name;
 var channel_name;
-// var button;
+var button;
 var people_typing = [];
 
 
