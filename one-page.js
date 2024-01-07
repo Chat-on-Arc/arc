@@ -3,6 +3,22 @@ import { getAuth, GoogleAuthProvider, onAuthStateChanged, signInWithPopup, signO
 import { getDatabase, set, ref, onValue, get, child } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-database.js";
 import { getMessaging, getToken, onMessage } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-messaging.js";
 
+const firebaseConfig = {
+    apiKey: "AIzaSyC5oq9fyPeoo8jVU-N07gYhjt2kFEBGqA8",
+    authDomain: "arc-by-insight.firebaseapp.com",
+    projectId: "arc-by-insight",
+    storageBucket: "arc-by-insight.appspot.com",
+    messagingSenderId: "1073428960179",
+    appId: "1:1073428960179:web:c61897786f1d2ba05131c6",
+    measurementId: "G-47T814R2SK"
+  };
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const provider = new GoogleAuthProvider();
+  const database = getDatabase(app);
+  const dbRef = ref(getDatabase());
+  const messaging = getMessaging(app);
+
 var uid;
 var user_email;
 var channel_id;
@@ -21,22 +37,7 @@ var header = document.getElementById("header");
   let head = document.getElementsByTagName("head");
   head = head[0];
   head.appendChild(stylesheet);
-  const firebaseConfig = {
-    apiKey: "AIzaSyC5oq9fyPeoo8jVU-N07gYhjt2kFEBGqA8",
-    authDomain: "arc-by-insight.firebaseapp.com",
-    projectId: "arc-by-insight",
-    storageBucket: "arc-by-insight.appspot.com",
-    messagingSenderId: "1073428960179",
-    appId: "1:1073428960179:web:c61897786f1d2ba05131c6",
-    measurementId: "G-47T814R2SK"
-  };
-
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
-  const provider = new GoogleAuthProvider();
-  const database = getDatabase(app);
-  const dbRef = ref(getDatabase());
-  const messaging = getMessaging(app);
+  
 
 function email_exists(e,data) {
   console.log(data);
