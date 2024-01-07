@@ -34,8 +34,8 @@ var header = document.getElementById("header");
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
   const provider = new GoogleAuthProvider();
+  const database = getDatabase(app);
   const dbRef = ref(getDatabase());
-  const database = getDatabase();
   const messaging = getMessaging(app);
 
 function email_exists(e,data) {
