@@ -6,23 +6,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head><body>
     <script src="dashboard.js" type="module"></script>
-    
+    <script src="global.js" type="module"></script>
     
     <div id="header">
         <table>
             <tbody>
                 <tr>
-                <td width="88.25%">
+                <td width="88%">
                     <h2>Arc</h2>
                 </td>
+    <td><div class="pfp"></div></td>
                 <td>
-                    <p id="username"></p>
+                    <p id="username">Jossaya Camille</p>
                 </td>
                 <td>
                     <a href="dashboard">Dashboard</a>
                 </td>
-                <td><a href="javascript:logout()">Sign out</a></td>
-</tr>
+                <td><a href="/settings">Settings</a></td>
+<td><a href="javascript:logout()">Sign out</a></td></tr>
             </tbody>
         </table>
 </div>
@@ -31,11 +32,17 @@
 <section id="open-section">
         <h1 id="user-greeting">Hi, user</h1>
         <h4>See your Arcs</h4>
-    <button onclick="create_an_arc()">Create an Arc</button>
+    <button onclick="new_direct()">Create an Arc</button>
+    <button onclick="create_an_arc()">Create a Circle</button>
     </section>
     
 <section id="channels-section">
-    <div id="channels-table">
+
+</section>
+<section id="direct-section">
+    <h4>Your DM conversations</h4>
+    
+    <div id="direct_conversations">
         
     </div>
 </section>
